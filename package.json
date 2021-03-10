@@ -1,0 +1,26 @@
+{
+  "name": "imooc-ts-senior",
+  "version": "1.0.0",
+  "description": "learning typescript",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjshinning/imooc-ts-senior.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cjshinning/imooc-ts-senior/issues"
+  },
+  "homepage": "https://github.com/cjshinning/imooc-ts-senior#readme",
+  "devDependencies": {
+    "ts-node": "^9.1.1"
+  },
+  "dependencies": {
+    "typescript": "^4.2.3"
+  }
+}

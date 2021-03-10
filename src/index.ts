@@ -3,20 +3,31 @@
 // 类装饰器接收的参数是构造函数
 // 装饰器通过 @ 符号来使用
 
-function TestDecorator(flag: Boolean) {
-  if (flag) {
-    return function(constructor: any) {
-      constructor.prototype.getName = () => {
-        console.log('jenny');
-      };
+function testDecorator() {
+  return function<T extends new (...args: any[]) => {}>(constructor: T) {
+    return class extends constructor {
+      name = 'chan';
+      getName() {
+        return this.name;
+      }
     };
-  } else {
-    return function(constructor: any) {};
-  }
+  };
 }
 
-@TestDecorator(false)
-class Test {}
+const Test = testDecorator()(
+  class {
+    name: string;
+    constructor(name: string) {
+      this.name = name;
+    }
+  }
+);
+// class Test {
+//   name: string;
+//   constructor(name: string) {
+//     this.name = name;
+//   }
+// }
 
-const test = new Test();
-(test as any).getName();
+const test = new Test('jenny');
+console.log(test.getName());

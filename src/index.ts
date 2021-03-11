@@ -1,33 +1,28 @@
-// 类的装饰器
-// 装饰器本身是一个函数
-// 类装饰器接收的参数是构造函数
-// 装饰器通过 @ 符号来使用
+// 普通方法，target对应的是类的prototype
+// 静态方法，target对应的是类的构造函数
 
-function testDecorator() {
-  return function<T extends new (...args: any[]) => {}>(constructor: T) {
-    return class extends constructor {
-      name = 'chan';
-      getName() {
-        return this.name;
-      }
-    };
+function getNameDecorator(
+  target: any,
+  key: string,
+  descriptor: PropertyDescriptor
+) {
+  // console.log(target, key);
+  // descriptor.writable = true;
+  descriptor.value = function() {
+    return 'decorator';
   };
 }
 
-const Test = testDecorator()(
-  class {
-    name: string;
-    constructor(name: string) {
-      this.name = name;
-    }
+class Test {
+  name: string;
+  constructor(name: string) {
+    this.name = name;
   }
-);
-// class Test {
-//   name: string;
-//   constructor(name: string) {
-//     this.name = name;
-//   }
-// }
+  @getNameDecorator
+  getName() {
+    return this.name;
+  }
+}
 
 const test = new Test('jenny');
 console.log(test.getName());

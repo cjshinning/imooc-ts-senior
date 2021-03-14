@@ -1,25 +1,22 @@
-function visitDecorator(
-  target: any,
-  key: string,
-  descriptor: PropertyDescriptor
-) {
-  // descriptor.writable = false;
+// function nameDecorator(target: any, key: string): any {
+//   const decriptor: PropertyDescriptor = {
+//     writable: false
+//   };
+//   return decriptor;
+// }
+
+// test.name = 'jenny chan';
+
+// 修改的并不是实例上的 name,而是原型上的name
+function nameDecorator(target: any, key: string): any {
+  target[key] = 'chan';
 }
 
+// name 放在实例上
 class Test {
-  private _name: string;
-  constructor(name: string) {
-    this._name = name;
-  }
-  get name() {
-    return this._name;
-  }
-  @visitDecorator
-  set name(name: string) {
-    this._name = name;
-  }
+  @nameDecorator
+  name = 'jenny';
 }
 
-const test = new Test('jenny');
-test.name = 'Jenny Chan';
-console.log(test.name);
+const test = new Test();
+console.log((test as any).__proto__.name);

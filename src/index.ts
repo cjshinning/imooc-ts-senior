@@ -1,22 +1,14 @@
-// function nameDecorator(target: any, key: string): any {
-//   const decriptor: PropertyDescriptor = {
-//     writable: false
-//   };
-//   return decriptor;
-// }
-
-// test.name = 'jenny chan';
-
-// 修改的并不是实例上的 name,而是原型上的name
-function nameDecorator(target: any, key: string): any {
-  target[key] = 'chan';
+// 原型，方法名，参数所在位置
+function paramDecorator(target: any, method: string, paramIndex: number): any {
+  console.log(target, method, paramIndex);
 }
 
 // name 放在实例上
 class Test {
-  @nameDecorator
-  name = 'jenny';
+  getInfo(name: string, @paramDecorator age: number) {
+    console.log(name, age);
+  }
 }
 
 const test = new Test();
-console.log((test as any).__proto__.name);
+test.getInfo('Jenny', 18);

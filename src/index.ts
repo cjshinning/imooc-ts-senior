@@ -1,14 +1,33 @@
-// 原型，方法名，参数所在位置
-function paramDecorator(target: any, method: string, paramIndex: number): any {
-  console.log(target, method, paramIndex);
+const userInfo: any = undefined;
+
+function catchError(msg: string) {
+  return function(target: any, key: string, descriptor: PropertyDescriptor) {
+    const fn = descriptor.value;
+    descriptor.value = function() {
+      try {
+        fn();
+      } catch (e) {
+        console.log(msg);
+      }
+    };
+  };
 }
 
-// name 放在实例上
 class Test {
-  getInfo(name: string, @paramDecorator age: number) {
-    console.log(name, age);
+  @catchError('userInfo.name不存在')
+  getName() {
+    return userInfo.name;
+  }
+  @catchError('userInfo.age不存在')
+  getAge() {
+    return userInfo.age;
+  }
+  @catchError('userInfo.gender不存在')
+  getGender() {
+    return userInfo.gender;
   }
 }
 
 const test = new Test();
-test.getInfo('Jenny', 18);
+test.getName();
+test.getAge();

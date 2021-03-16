@@ -1,33 +1,20 @@
-const userInfo: any = undefined;
+import 'reflect-metadata';
 
-function catchError(msg: string) {
-  return function(target: any, key: string, descriptor: PropertyDescriptor) {
-    const fn = descriptor.value;
-    descriptor.value = function() {
-      try {
-        fn();
-      } catch (e) {
-        console.log(msg);
-      }
-    };
-  };
+// const user = {
+//   name: 'dell'
+// };
+
+// Reflect.defineMetadata('data', 'test', user);
+
+// console.log(Reflect.getMetadata('data', user));
+
+class User {
+  @Reflect.metadata('data', 'test')
+  @Reflect.metadata('data1', 'test')
+  getName() {}
 }
 
-class Test {
-  @catchError('userInfo.name不存在')
-  getName() {
-    return userInfo.name;
-  }
-  @catchError('userInfo.age不存在')
-  getAge() {
-    return userInfo.age;
-  }
-  @catchError('userInfo.gender不存在')
-  getGender() {
-    return userInfo.gender;
-  }
-}
+class Teacher extends User {}
 
-const test = new Test();
-test.getName();
-test.getAge();
+console.log(Reflect.getOwnMetadataKeys(User.prototype, 'getName'));
+console.log(Reflect.getOwnMetadataKeys(Teacher.prototype, 'getName'));

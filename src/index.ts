@@ -1,20 +1,23 @@
 import 'reflect-metadata';
 
-// const user = {
-//   name: 'dell'
-// };
-
-// Reflect.defineMetadata('data', 'test', user);
-
-// console.log(Reflect.getMetadata('data', user));
-
-class User {
-  @Reflect.metadata('data', 'test')
-  @Reflect.metadata('data1', 'test')
-  getName() {}
+function showData(target: typeof User) {
+  for (let key in target.prototype) {
+    const data = Reflect.getMetadata('data', target.prototype, key);
+    console.log(data);
+  }
 }
 
-class Teacher extends User {}
+function setData(dataKey: string, msg: string) {
+  return function(target: User, key: string) {
+    Reflect.defineMetadata(dataKey, msg, target, key);
+  };
+}
 
-console.log(Reflect.getOwnMetadataKeys(User.prototype, 'getName'));
-console.log(Reflect.getOwnMetadataKeys(Teacher.prototype, 'getName'));
+@showData
+class User {
+  @Reflect.metadata('data', 'name')
+  getName() {}
+
+  @setData('data', 'age')
+  getAge() {}
+}
